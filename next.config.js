@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone', // Optimized build for Hostinger VPS & Node host deployment
+  // Use standalone output for self-hosted/Docker/Hostinger, default to serverless on Vercel
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
   images: {
     remotePatterns: [
       {

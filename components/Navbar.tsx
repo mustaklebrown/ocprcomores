@@ -41,40 +41,38 @@ export default function Navbar() {
 
   return (
     <header suppressHydrationWarning className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-      {/* Top Bar with Responsive Wrapping */}
-      <div className={`bg-[#184E2A] text-white text-[11px] sm:text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-[#2A7B44]/40 transition-all duration-300 ${isScrolled ? 'h-0 py-0 overflow-hidden opacity-0' : 'opacity-100'}`}>
-        <div className="max-w-7xl mx-auto flex flex-wrap sm:flex-nowrap justify-between items-center gap-2">
-          <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar py-0.5">
+      {/* Top Bar for Desktop & Tablet */}
+      <div className={`hidden sm:block bg-[#184E2A] text-white text-xs py-2 px-4 border-b border-[#2A7B44]/40 transition-all duration-300 ${isScrolled ? 'h-0 py-0 overflow-hidden opacity-0' : 'opacity-100'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <div className="flex items-center gap-6">
             <a
               href="mailto:info@ocprcomores.com"
-              className="flex items-center gap-1.5 hover:text-[#DAA520] transition-colors shrink-0"
+              className="flex items-center gap-2 hover:text-[#DAA520] transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-[#DAA520]" />
-              <span className="hidden xs:inline sm:inline">info@ocprcomores.com</span>
-              <span className="xs:hidden sm:hidden">Email</span>
+              <span>info@ocprcomores.com</span>
             </a>
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-4">
               <a
                 href="tel:+2697332318"
-                className="flex items-center gap-1.5 hover:text-[#DAA520] transition-colors"
+                className="flex items-center gap-2 hover:text-[#DAA520] transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#DAA520]" />
-                <span className="hidden sm:inline">+269 733 23 18 / +269 499 60 25</span>
-                <span className="sm:hidden">+269 733 23 18</span>
+                <span>+269 733 23 18 / +269 499 60 25</span>
               </a>
               <a
                 href="https://www.facebook.com/profile.php?id=61552777156634"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#DAA520] hover:bg-[#E7B83A] text-[#184E2A] p-1 rounded-full transition-all hover:scale-110 shadow-xs border border-[#F5E4A3]/60 flex items-center justify-center font-bold shrink-0"
+                className="bg-[#DAA520] hover:bg-[#E7B83A] text-[#184E2A] p-1.5 rounded-full transition-all hover:scale-110 shadow-xs border border-[#F5E4A3]/60 flex items-center justify-center font-bold"
                 aria-label="Facebook OCPR"
               >
-                <Facebook className="w-3 h-3 fill-current" />
+                <Facebook className="w-3.5 h-3.5 fill-current" />
               </a>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 ml-auto sm:ml-0">
+          <div className="flex items-center gap-4">
             <span className="hidden md:inline-flex items-center gap-2 text-amber-100/80 text-[11px] uppercase tracking-wider font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#DAA520]" />
               Union des Comores • Établissement Public
@@ -140,7 +138,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#042f24] border-b border-emerald-700/50 px-5 py-5 animate-fade-in shadow-2xl max-h-[80vh] overflow-y-auto">
+          <div className="lg:hidden bg-[#042f24] border-b border-emerald-700/50 px-5 py-6 animate-fade-in shadow-2xl max-h-[85vh] overflow-y-auto">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
@@ -153,21 +151,44 @@ export default function Navbar() {
                   <ChevronRight className="w-4 h-4 text-emerald-400" />
                 </a>
               ))}
-              <div className="pt-4 mt-2 border-t border-emerald-800/80 flex flex-col gap-3">
+
+              {/* Mobile Drawer Contact & Quick Info */}
+              <div className="pt-5 mt-3 border-t border-emerald-800/80 flex flex-col gap-3">
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="btn btn-gold w-full text-center py-3 text-sm uppercase font-bold tracking-wider rounded-xl"
+                  className="btn btn-gold w-full text-center py-3 text-sm uppercase font-bold tracking-wider rounded-xl shadow-md"
                 >
                   Nous Contacter
                 </a>
+
+                <div className="p-4 rounded-xl bg-[#093d30] border border-emerald-800/80 flex flex-col gap-2 text-xs text-emerald-100/90 mt-1">
+                  <a href="tel:+2697332318" className="flex items-center gap-2.5 hover:text-[#DAA520] transition-colors py-1">
+                    <Phone className="w-4 h-4 text-[#DAA520] shrink-0" />
+                    <span>+269 733 23 18 / +269 499 60 25</span>
+                  </a>
+                  <a href="mailto:info@ocprcomores.com" className="flex items-center gap-2.5 hover:text-[#DAA520] transition-colors py-1">
+                    <Mail className="w-4 h-4 text-[#DAA520] shrink-0" />
+                    <span>info@ocprcomores.com</span>
+                  </a>
+                  <a
+                    href="https://www.facebook.com/profile.php?id=61552777156634"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 text-[#DAA520] hover:text-white transition-colors py-1 font-semibold"
+                  >
+                    <Facebook className="w-4 h-4 fill-current shrink-0" />
+                    <span>Page Facebook Officielle</span>
+                  </a>
+                </div>
+
                 <a
                   href="/admin/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-900/80 text-amber-300 border border-emerald-700 text-xs font-bold uppercase tracking-wider"
+                  className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-900/90 text-amber-300 border border-emerald-700 text-xs font-bold uppercase tracking-wider hover:bg-emerald-800 transition-colors mt-1"
                 >
                   <Lock className="w-4 h-4" />
-                  <span>Connexion Administration</span>
+                  <span>Espace Administration</span>
                 </a>
               </div>
             </div>

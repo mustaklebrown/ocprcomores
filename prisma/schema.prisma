@@ -1,0 +1,119 @@
+// Prisma Schema for OCPR Comores PostgreSQL Database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+  REPLIED
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(ADMIN)
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  scientificName String
+  category      String   // e.g. "Pilier Majeur", "Filière Émergente"
+  icon          String   // Lucide icon name or image path
+  description   String   @db.Text
+  specs         String   @db.Text // JSON string or markdown specs
+  isoNorms      String   // e.g. "ISO 5565-1:1999"
+  exportDetails String   @db.Text
+  islands       String   // Comma separated islands or JSON string
+  imageUrl      String?
+  isPublished   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("products")
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    String   // e.g. "Événement", "Institutionnel", "Partenariat"
+  excerpt     String   @db.Text
+  content     String   @db.Text
+  date        String   // e.g. "28 Juillet 2026"
+  imageUrl    String?
+  readTime    String   @default("3 min")
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("news")
+}
+
+model Media {
+  id          String    @id @default(cuid())
+  title       String
+  category    String    // e.g. "Vanille", "Événements", "Ylang-Ylang", "Infrastructures"
+  type        MediaType @default(PHOTO)
+  url         String
+  description String?   @db.Text
+  isPublished Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("media")
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String        @db.Text
+  status    MessageStatus @default(UNREAD)
+  ipAddress String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("contact_messages")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  adminId   String?
+  user      User?    @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  adminEmail String
+  action    String   // e.g. "LOGIN", "CREATE_PRODUCT", "UPDATE_NEWS", "DELETE_MEDIA"
+  details   String   @db.Text
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}

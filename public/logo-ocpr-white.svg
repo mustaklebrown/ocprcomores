@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -20 740 450" width="100%" height="100%">
+  <defs>
+    <filter id="whiteGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Group Emblem Left (White Monochrome) -->
+  <g id="Emblem" transform="translate(175, 210)" filter="url(#whiteGlow)">
+    
+    <!-- Outer Circle Ring -->
+    <circle cx="0" cy="0" r="115" fill="none" stroke="#FFFFFF" stroke-width="6"/>
+
+    <!-- Vines and Vanilla Pods (White Outline) -->
+    <g>
+      <!-- Curved Vine crossing ring -->
+      <path d="M -155,28 C -70,25 -20,10 40,-25 C 75,-46 120,-35 140,-28" fill="none" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round"/>
+      
+      <!-- Second pod curve -->
+      <path d="M -165,18 C -90,22 -30,0 20,-30 C 50,-48 95,-40 115,-35" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Cloves (Clous de Girofle) top center -->
+    <g transform="translate(-5, -75)">
+      <!-- Clove 1 (Left) -->
+      <g transform="rotate(-15, -12, 0)">
+        <path d="M -14,15 L -10,-5 C -10,-9 -6,-12 -2,-12 C 2,-12 6,-9 6,-5 L 2,15 Z" fill="#FFFFFF"/>
+        <circle cx="-2" cy="-14" r="5" fill="#FFFFFF"/>
+      </g>
+      <!-- Clove 2 (Center) -->
+      <g transform="translate(10, -5)">
+        <path d="M -6,15 L -4,-8 C -4,-12 0,-15 4,-15 C 8,-15 12,-12 12,-8 L 10,15 Z" fill="#FFFFFF"/>
+        <circle cx="4" cy="-17" r="5.5" fill="#FFFFFF"/>
+      </g>
+      <!-- Clove 3 (Right) -->
+      <g transform="rotate(18, 25, 0)">
+        <path d="M 18,15 L 20,-2 C 20,-6 24,-9 28,-9 C 32,-9 36,-6 36,-2 L 34,15 Z" fill="#FFFFFF"/>
+        <circle cx="28" cy="-11" r="4.8" fill="#FFFFFF"/>
+      </g>
+    </g>
+
+    <!-- Vanilla Orchid Flower (Centerpiece White) -->
+    <g transform="translate(-25, 0)">
+      <!-- Petals -->
+      <path d="M 0,-10 C -25,-45 -45,-30 -35,5 C -25,25 -10,15 0,-10 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+      <path d="M 0,-10 C 25,-45 45,-30 35,5 C 25,25 10,15 0,-10 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+      <path d="M -10,0 C -55,-15 -60,20 -30,35 C -15,40 -5,20 -10,0 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+      <path d="M 10,0 C 55,-15 60,20 30,35 C 15,40 5,20 10,0 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+      <path d="M 0,10 C -25,50 0,65 15,45 C 25,30 10,15 0,10 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+      
+      <!-- Inner Orchid Trumpet -->
+      <path d="M -15,0 C -22,15 -12,32 0,32 C 12,32 22,15 15,0 C 10,-10 -10,-10 -15,0 Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+      <path d="M -8,5 C -12,15 -6,24 0,24 C 6,24 12,15 8,5 Z" fill="#FFFFFF"/>
+    </g>
+
+    <!-- Ylang-Ylang at Bottom -->
+    <g transform="translate(-2, 55)">
+      <path d="M -12,-5 C -18,15 -8,35 0,40 C 8,35 18,15 12,-5 C 5,5 -5,5 -12,-5 Z" fill="#FFFFFF"/>
+    </g>
+
+  </g>
+
+  <!-- Typography Right (White) -->
+  <g id="Typography" transform="translate(345, 0)">
+    <!-- OCPR Title -->
+    <text x="0" y="215" font-family="'adelle-sans', 'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-weight="900" font-size="106" fill="#FFFFFF" letter-spacing="-1.5">OCPR</text>
+    
+    <!-- Office Comorien Subtitle -->
+    <text x="5" y="262" font-family="'adelle-sans', 'Georgia', 'Times New Roman', serif" font-weight="500" font-size="34" fill="#FFFFFF" letter-spacing="0.2">Office Comorien</text>
+    
+    <!-- des Produits de Rente Subtitle -->
+    <text x="5" y="302" font-family="'adelle-sans', 'Georgia', 'Times New Roman', serif" font-weight="500" font-size="34" fill="#FFFFFF" letter-spacing="0.2">des Produits de Rente</text>
+  </g>
+</svg>

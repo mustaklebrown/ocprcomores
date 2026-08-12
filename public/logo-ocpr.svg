@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -20 740 450" width="100%" height="100%">
+  <defs>
+    <!-- Gradients for Petals and Accents -->
+    <linearGradient id="vanillaGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3C728"/>
+      <stop offset="60%" stop-color="#DAA520"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+    
+    <linearGradient id="cloveBrown" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6B4426"/>
+      <stop offset="100%" stop-color="#3D2719"/>
+    </linearGradient>
+
+    <linearGradient id="ocprGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#367C47"/>
+      <stop offset="100%" stop-color="#1E562D"/>
+    </linearGradient>
+
+    <filter id="subtleShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Group Emblem Left with Full Padded Margin -->
+  <g id="Emblem" transform="translate(175, 210)">
+    
+    <!-- Outer Arc Rings (Comores / Product colors) -->
+    <!-- 1. Top-Left Arc: Yellow -->
+    <path d="M -90,-72 A 115 115 0 0 1 -35,-109" fill="none" stroke="#EDBF2B" stroke-width="7" stroke-linecap="round"/>
+    <!-- 2. Top Arc: White/Cream -->
+    <path d="M -30,-111 A 115 115 0 0 1 35,-109" fill="none" stroke="#EAEAEA" stroke-width="7" stroke-linecap="round"/>
+    <!-- 3. Top-Right Arc: Burgundy Red -->
+    <path d="M 40,-107 A 115 115 0 0 1 108,-39" fill="none" stroke="#8C2D32" stroke-width="7" stroke-linecap="round"/>
+    <!-- 4. Right & Bottom-Right Arc: Ocean Indigo -->
+    <path d="M 112,-30 A 115 115 0 0 1 35,109" fill="none" stroke="#2E2A68" stroke-width="7" stroke-linecap="round"/>
+    <!-- 5. Bottom & Bottom-Left Arc: OCPR Green -->
+    <path d="M 28,111 A 115 115 0 0 1 -88,74" fill="none" stroke="#2A7B44" stroke-width="7" stroke-linecap="round"/>
+    <!-- 6. Left Arc: Yellow -->
+    <path d="M -94,65 A 115 115 0 0 1 -94,-64" fill="none" stroke="#EDBF2B" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Vines and Vanilla Pods (Full sweeping curves without crop) -->
+    <g filter="url(#subtleShadow)">
+      <!-- Main Curved Green Vine -->
+      <path d="M -155,28 C -70,25 -20,10 40,-25 C 75,-46 120,-35 140,-28" fill="none" stroke="#2D6035" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M -155,28 C -70,25 -20,10 40,-25 C 75,-46 120,-35 140,-28" fill="none" stroke="#809E38" stroke-width="2.5" stroke-linecap="round"/>
+      
+      <!-- Second pod curve -->
+      <path d="M -165,18 C -90,22 -30,0 20,-30 C 50,-48 95,-40 115,-35" fill="none" stroke="#523824" stroke-width="5.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Cloves (Clous de Girofle) top center -->
+    <g transform="translate(-5, -75)" filter="url(#subtleShadow)">
+      <!-- Clove 1 (Left) -->
+      <g transform="rotate(-15, -12, 0)">
+        <path d="M -14,15 L -10,-5 C -10,-9 -6,-12 -2,-12 C 2,-12 6,-9 6,-5 L 2,15 Z" fill="url(#cloveBrown)"/>
+        <circle cx="-2" cy="-14" r="5" fill="#4A2E1B"/>
+        <circle cx="-5" cy="-16" r="2.5" fill="#8C5832"/>
+        <circle cx="1" cy="-16" r="2.5" fill="#8C5832"/>
+        <circle cx="-2" cy="-12" r="2.5" fill="#8C5832"/>
+      </g>
+      <!-- Clove 2 (Center) -->
+      <g transform="translate(10, -5)">
+        <path d="M -6,15 L -4,-8 C -4,-12 0,-15 4,-15 C 8,-15 12,-12 12,-8 L 10,15 Z" fill="url(#cloveBrown)"/>
+        <circle cx="4" cy="-17" r="5.5" fill="#3D2719"/>
+        <circle cx="1" cy="-19" r="2.8" fill="#7A4B29"/>
+        <circle cx="7" cy="-19" r="2.8" fill="#7A4B29"/>
+        <circle cx="4" cy="-15" r="2.8" fill="#7A4B29"/>
+      </g>
+      <!-- Clove 3 (Right) -->
+      <g transform="rotate(18, 25, 0)">
+        <path d="M 18,15 L 20,-2 C 20,-6 24,-9 28,-9 C 32,-9 36,-6 36,-2 L 34,15 Z" fill="url(#cloveBrown)"/>
+        <circle cx="28" cy="-11" r="4.8" fill="#4A2E1B"/>
+        <circle cx="25" cy="-13" r="2.3" fill="#8C5832"/>
+        <circle cx="31" cy="-13" r="2.3" fill="#8C5832"/>
+      </g>
+    </g>
+
+    <!-- Vanilla Orchid Flower (Centerpiece) -->
+    <g transform="translate(-25, 0)" filter="url(#subtleShadow)">
+      <path d="M 0,-10 C -25,-45 -45,-30 -35,5 C -25,25 -10,15 0,-10 Z" fill="url(#vanillaGold)" stroke="#B8860B" stroke-width="1.5"/>
+      <path d="M 0,-10 C 25,-45 45,-30 35,5 C 25,25 10,15 0,-10 Z" fill="url(#vanillaGold)" stroke="#B8860B" stroke-width="1.5"/>
+      <path d="M -10,0 C -55,-15 -60,20 -30,35 C -15,40 -5,20 -10,0 Z" fill="url(#vanillaGold)" stroke="#B8860B" stroke-width="1.5"/>
+      <path d="M 10,0 C 55,-15 60,20 30,35 C 15,40 5,20 10,0 Z" fill="url(#vanillaGold)" stroke="#B8860B" stroke-width="1.5"/>
+      <path d="M 0,10 C -25,50 0,65 15,45 C 25,30 10,15 0,10 Z" fill="url(#vanillaGold)" stroke="#B8860B" stroke-width="1.5"/>
+      
+      <path d="M -15,0 C -22,15 -12,32 0,32 C 12,32 22,15 15,0 C 10,-10 -10,-10 -15,0 Z" fill="#FACC15" stroke="#D97706" stroke-width="2"/>
+      <path d="M -8,5 C -12,15 -6,24 0,24 C 6,24 12,15 8,5 Z" fill="#FEF08A"/>
+      
+      <path d="M -3,-2 L -1,-12 C -1,-15 1,-15 1,-12 L 3,-2 Z" fill="#6B4426"/>
+      <circle cx="0" cy="-14" r="3" fill="#F59E0B"/>
+    </g>
+
+    <!-- Ylang-Ylang / Ginger Rhizome at Bottom -->
+    <g transform="translate(-2, 55)" filter="url(#subtleShadow)">
+      <path d="M -12,-5 C -18,15 -8,35 0,40 C 8,35 18,15 12,-5 C 5,5 -5,5 -12,-5 Z" fill="#FACC15" stroke="#CA8A04" stroke-width="1.5"/>
+      <path d="M -5,5 C -8,18 0,28 0,28 C 0,28 8,18 5,5 Z" fill="#FEF08A"/>
+    </g>
+
+  </g>
+
+  <!-- Typography Right -->
+  <g id="Typography" transform="translate(345, 0)">
+    <!-- OCPR Title -->
+    <text x="0" y="215" font-family="'adelle-sans', 'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-weight="900" font-size="106" fill="#367C47" letter-spacing="-1.5">OCPR</text>
+    
+    <!-- Office Comorien Subtitle -->
+    <text x="5" y="262" font-family="'adelle-sans', 'Georgia', 'Times New Roman', serif" font-weight="500" font-size="34" fill="#523824" letter-spacing="0.2">Office Comorien</text>
+    
+    <!-- des Produits de Rente Subtitle -->
+    <text x="5" y="302" font-family="'adelle-sans', 'Georgia', 'Times New Roman', serif" font-weight="500" font-size="34" fill="#523824" letter-spacing="0.2">des Produits de Rente</text>
+  </g>
+</svg>

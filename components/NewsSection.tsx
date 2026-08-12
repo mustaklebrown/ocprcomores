@@ -74,7 +74,7 @@ export default function NewsSection() {
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
 
   return (
-    <section id="actu" className="section-padding bg-white relative">
+    <section id="actu" className="section-padding bg-white relative scroll-mt-20 sm:scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

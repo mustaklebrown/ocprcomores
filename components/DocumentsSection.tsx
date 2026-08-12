@@ -81,7 +81,7 @@ export default function DocumentsSection() {
   const documents: DocumentItem[] = defaultDocuments;
 
   return (
-    <section id="documents" className="section-padding bg-[#1E5E33] text-white relative overflow-hidden">
+    <section id="documents" className="section-padding bg-[#1E5E33] text-white relative overflow-hidden scroll-mt-20 sm:scroll-mt-24">
       {/* Subtle Background Accent Glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2A7B44]/40 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#DAA520]/20 rounded-full blur-3xl -z-10" />

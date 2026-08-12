@@ -9,7 +9,7 @@ export default function AboutSection() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   return (
-    <section id="about" className="section-padding bg-white relative overflow-hidden">
+    <section id="about" className="section-padding bg-white relative overflow-hidden scroll-mt-20 sm:scroll-mt-24">
       {/* Decorative SVG background elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-50 rounded-full blur-3xl -z-10 opacity-70" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-50 rounded-full blur-3xl -z-10 opacity-70" />

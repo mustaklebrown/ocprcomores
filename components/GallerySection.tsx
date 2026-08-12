@@ -117,7 +117,7 @@ export default function GallerySection() {
     : mediaItems.filter(item => item.category === activeCategory);
 
   return (
-    <section id="galerie" className="section-padding bg-[#184E2A] text-white relative">
+    <section id="galerie" className="section-padding bg-[#184E2A] text-white relative scroll-mt-20 sm:scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
         {/* Redesigned Section Header */}

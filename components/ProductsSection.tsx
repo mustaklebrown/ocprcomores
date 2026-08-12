@@ -157,7 +157,7 @@ export default function ProductsSection() {
     : products.filter(p => p.category === activeFilter);
 
   return (
-    <section id="produits" className="section-padding bg-[#f8faf9] relative">
+    <section id="produits" className="section-padding bg-[#f8faf9] relative scroll-mt-20 sm:scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

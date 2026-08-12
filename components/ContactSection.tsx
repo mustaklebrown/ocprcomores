@@ -41,7 +41,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="section-padding bg-[#FAF8F3] relative">
+    <section id="contact" className="section-padding bg-[#FAF8F3] relative scroll-mt-20 sm:scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}

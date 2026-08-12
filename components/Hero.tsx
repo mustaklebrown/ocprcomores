@@ -62,7 +62,7 @@ export default function Hero() {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section id="hero" suppressHydrationWarning className="relative min-h-[92vh] flex items-center justify-center pt-40 pb-16 overflow-hidden bg-[#184E2A]">
+    <section id="hero" suppressHydrationWarning className="relative min-h-[85vh] sm:min-h-[92vh] flex items-center justify-center pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 overflow-hidden bg-[#184E2A] scroll-mt-20">
       {/* Background Slides with Optimized Next Image */}
       {slides.map((slide, index) => (
         <div
@@ -86,13 +86,13 @@ export default function Hero() {
 
       {/* Hero Content Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 text-white">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
           {/* Left Column: Text & CTAs */}
           <div className="lg:col-span-7">
 
             {/* Animated Badge with Logo Color Palette Dots */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#1E5E33]/90 border border-[#2A7B44]/50 text-amber-300 text-xs font-bold uppercase tracking-widest backdrop-blur-md mb-6 animate-fade-in shadow-lg">
+            <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1E5E33]/90 border border-[#2A7B44]/50 text-amber-300 text-[11px] sm:text-xs font-bold uppercase tracking-widest backdrop-blur-md mb-4 sm:mb-6 animate-fade-in shadow-lg">
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-[#EDBF2B]" />
                 <span className="w-2 h-2 rounded-full bg-[#8C2D32]" />
@@ -103,32 +103,32 @@ export default function Hero() {
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] mb-4 text-white font-heading">
+            <h1 className="text-xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight leading-[1.2] sm:leading-[1.15] mb-3 sm:mb-4 text-white font-heading">
               {slides[currentSlide].title}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg md:text-xl font-medium text-[#DAA520] mb-6">
+            <p className="text-base sm:text-xl font-medium text-[#DAA520] mb-4 sm:mb-6">
               {slides[currentSlide].subtitle}
             </p>
 
             {/* Description */}
-            <p className="text-base md:text-lg text-emerald-100/90 leading-relaxed mb-8 max-w-2xl">
+            <p className="text-sm sm:text-lg text-emerald-100/90 leading-relaxed mb-6 sm:mb-8 max-w-2xl">
               {slides[currentSlide].description}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <a
                 href="#about"
-                className="btn btn-primary text-sm uppercase font-bold tracking-wider py-3.5 px-7 rounded-xl shadow-lg bg-gradient-to-r from-[#2A7B44] to-[#1D552F] hover:from-[#3EA05D] hover:to-[#2A7B44]"
+                className="btn btn-primary text-xs sm:text-sm uppercase font-bold tracking-wider py-3.5 px-6 sm:px-7 rounded-xl shadow-lg bg-gradient-to-r from-[#2A7B44] to-[#1D552F] hover:from-[#3EA05D] hover:to-[#2A7B44] text-center"
               >
                 <span>Découvrir l'OCPR</span>
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
                 href="#produits"
-                className="btn btn-gold text-sm uppercase font-bold tracking-wider py-3.5 px-7 rounded-xl bg-gradient-to-r from-[#DAA520] to-[#B8860B] text-white hover:from-[#E7B83A] hover:to-[#DAA520]"
+                className="btn btn-gold text-xs sm:text-sm uppercase font-bold tracking-wider py-3.5 px-6 sm:px-7 rounded-xl bg-gradient-to-r from-[#DAA520] to-[#B8860B] text-white hover:from-[#E7B83A] hover:to-[#DAA520] text-center"
               >
                 <span>Nos Filières de Rente</span>
                 <Sprout className="w-5 h-5" />
@@ -136,34 +136,34 @@ export default function Hero() {
             </div>
 
             {/* Key Highlights Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-12 pt-8 border-t border-emerald-500/20">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-emerald-500/20">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-[#1E5E33] border border-[#2A7B44]/40 text-[#64B27C]">
+                <div className="p-2.5 rounded-lg bg-[#1E5E33] border border-[#2A7B44]/40 text-[#64B27C] shrink-0">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs text-emerald-200/70 font-semibold uppercase">Statut</h4>
-                  <p className="text-sm font-bold text-white">Établissement Public</p>
+                  <h4 className="text-[10px] sm:text-xs text-emerald-200/70 font-semibold uppercase">Statut</h4>
+                  <p className="text-xs sm:text-sm font-bold text-white">Établissement Public</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-[#523824]/60 border border-[#DAA520]/30 text-[#DAA520]">
+                <div className="p-2.5 rounded-lg bg-[#523824]/60 border border-[#DAA520]/30 text-[#DAA520] shrink-0">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs text-amber-200/70 font-semibold uppercase">Filières</h4>
-                  <p className="text-sm font-bold capitalize text-white"> Produits de Diversification</p>
+                  <h4 className="text-[10px] sm:text-xs text-amber-200/70 font-semibold uppercase">Filières</h4>
+                  <p className="text-xs sm:text-sm font-bold capitalize text-white">Produits de Diversification</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 col-span-2 sm:col-span-1">
-                <div className="p-2.5 rounded-lg bg-[#1E5E33] border border-[#2A7B44]/40 text-[#DAA520]">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-[#1E5E33] border border-[#2A7B44]/40 text-[#DAA520] shrink-0">
                   <Sprout className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs text-emerald-200/70 font-semibold uppercase">Impact</h4>
-                  <p className="text-sm font-bold text-white">Union des Comores</p>
+                  <h4 className="text-[10px] sm:text-xs text-emerald-200/70 font-semibold uppercase">Impact</h4>
+                  <p className="text-xs sm:text-sm font-bold text-white">Union des Comores</p>
                 </div>
               </div>
             </div>
@@ -171,17 +171,17 @@ export default function Hero() {
           </div>
 
           {/* Right Column: High Visibility Full-Color Logo Showcase */}
-          <div className="lg:col-span-5 flex justify-center items-center relative">
+          <div className="lg:col-span-5 flex justify-center items-center relative mt-6 lg:mt-0">
 
             {/* Background Glow Halo */}
             <div className="absolute -inset-4 bg-gradient-to-tr from-[#2A7B44]/40 via-[#DAA520]/30 to-[#8C2D32]/30 rounded-3xl blur-2xl animate-pulse" />
 
             {/* Premium Glass Showcase Container */}
-            <div className="relative w-full max-w-md bg-gradient-to-b from-[#FAF8F3] to-[#F3EFE6] text-slate-900 rounded-3xl p-8 sm:p-10 shadow-2xl border-4 border-white/90 group hover:scale-[1.02] transition-transform duration-500">
+            <div className="relative w-full max-w-md bg-gradient-to-b from-[#FAF8F3] to-[#F3EFE6] text-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-white/90 group hover:scale-[1.02] transition-transform duration-500">
 
               {/* Header Badge */}
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-200">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#2A7B44] bg-[#2A7B44]/10 px-3 py-1 rounded-full border border-[#2A7B44]/20">
+              <div className="flex items-center justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-200">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#2A7B44] bg-[#2A7B44]/10 px-2.5 py-0.5 rounded-full border border-[#2A7B44]/20">
                   Sceau Officiel
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#523824]">
@@ -190,30 +190,30 @@ export default function Hero() {
               </div>
 
               {/* Full Color Original Logo Element */}
-              <div className="p-2 flex items-center justify-center my-2 group-hover:scale-105 transition-transform duration-500 filter drop-shadow-xl overflow-visible">
+              <div className="p-2 flex items-center justify-center my-1 sm:my-2 group-hover:scale-105 transition-transform duration-500 filter drop-shadow-xl overflow-visible">
                 <Image
                   src="/logo-orginal.png"
                   alt="Logo Officiel OCPR Comores"
                   width={360}
                   height={240}
                   priority
-                  className="w-full max-w-[360px] h-auto object-contain p-1"
+                  className="w-full max-w-[280px] sm:max-w-[360px] h-auto object-contain p-1"
                 />
               </div>
 
               {/* Floating Feature Tags below Logo */}
-              <div className="grid grid-cols-3 gap-2 mt-6 pt-4 border-t border-slate-200 text-center">
-                <div className="p-2 rounded-xl bg-white shadow-xs border border-slate-100">
-                  <span className="block text-xs font-bold text-[#2A7B44]">Vanille</span>
-                  <span className="text-[9px] text-slate-500 uppercase font-semibold">Bourbon</span>
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-200 text-center">
+                <div className="p-1.5 sm:p-2 rounded-xl bg-white shadow-xs border border-slate-100">
+                  <span className="block text-[11px] sm:text-xs font-bold text-[#2A7B44]">Vanille</span>
+                  <span className="text-[8px] sm:text-[9px] text-slate-500 uppercase font-semibold">Bourbon</span>
                 </div>
-                <div className="p-2 rounded-xl bg-white shadow-xs border border-slate-100">
-                  <span className="block text-xs font-bold text-[#523824]">Girofle</span>
-                  <span className="text-[9px] text-slate-500 uppercase font-semibold">Spécialité</span>
+                <div className="p-1.5 sm:p-2 rounded-xl bg-white shadow-xs border border-slate-100">
+                  <span className="block text-[11px] sm:text-xs font-bold text-[#523824]">Girofle</span>
+                  <span className="text-[8px] sm:text-[9px] text-slate-500 uppercase font-semibold">Spécialité</span>
                 </div>
-                <div className="p-2 rounded-xl bg-white shadow-xs border border-slate-100">
-                  <span className="block text-xs font-bold text-[#DAA520]">Ylang</span>
-                  <span className="text-[9px] text-slate-500 uppercase font-semibold">Essence</span>
+                <div className="p-1.5 sm:p-2 rounded-xl bg-white shadow-xs border border-slate-100">
+                  <span className="block text-[11px] sm:text-xs font-bold text-[#DAA520]">Ylang</span>
+                  <span className="text-[8px] sm:text-[9px] text-slate-500 uppercase font-semibold">Essence</span>
                 </div>
               </div>
 
@@ -224,20 +224,20 @@ export default function Hero() {
       </div>
 
       {/* Slider Controls */}
-      <div className="absolute bottom-8 right-8 z-30 hidden md:flex items-center gap-3">
+      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 z-30 flex items-center gap-2 sm:gap-3 bg-[#0B2313]/70 backdrop-blur-md p-1.5 sm:p-2 rounded-full border border-emerald-500/20">
         <button
           onClick={prevSlide}
-          className="p-3 rounded-full bg-[#0B2313]/90 border border-emerald-500/30 text-white hover:bg-[#2A7B44] transition-all hover:scale-110"
+          className="p-2 sm:p-3 rounded-full bg-[#0B2313] text-white hover:bg-[#2A7B44] transition-all hover:scale-110"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 sm:gap-2">
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentSlide(i)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-8 bg-[#DAA520]' : 'w-2.5 bg-[#12371F] hover:bg-[#2A7B44]'
+              className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-6 sm:w-8 bg-[#DAA520]' : 'w-2 sm:w-2.5 bg-[#12371F] hover:bg-[#2A7B44]'
                 }`}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -245,10 +245,10 @@ export default function Hero() {
         </div>
         <button
           onClick={nextSlide}
-          className="p-3 rounded-full bg-[#0B2313]/90 border border-emerald-500/30 text-white hover:bg-[#2A7B44] transition-all hover:scale-110"
+          className="p-2 sm:p-3 rounded-full bg-[#0B2313] text-white hover:bg-[#2A7B44] transition-all hover:scale-110"
           aria-label="Next slide"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
     </section>

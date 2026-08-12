@@ -64,7 +64,7 @@ const missions: Mission[] = [
 
 export default function MissionsGrid() {
   return (
-    <section id="missions" className="section-padding bg-[#184E2A] text-white relative overflow-hidden">
+    <section id="missions" className="section-padding bg-[#184E2A] text-white relative overflow-hidden scroll-mt-20 sm:scroll-mt-24">
       {/* Glow Effects using logo colors */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#2A7B44]/20 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#DAA520]/15 rounded-full blur-3xl" />

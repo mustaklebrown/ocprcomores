@@ -3,6 +3,6 @@ import { defineConfig } from '@prisma/config';
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   datasource: {
-    url: process.env.DATABASE_URL || 'postgresql://localhost:5432/ocpr_db',
+    url: process.env.DATABASE_URL || 'mysql://root:password@127.0.0.1:3307/ocpr_db',
   },
 });

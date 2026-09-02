@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getClientIp } from '@/lib/auth';
+import { sendContactNotificationEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,33 +16,49 @@ export async function POST(req: NextRequest) {
     }
 
     const ipAddress = getClientIp(req);
+    const cleanName = String(name).trim();
+    const cleanEmail = String(email).trim().toLowerCase();
+    const cleanSubject = String(subject).trim();
+    const cleanMessage = String(message).trim();
+    const cleanPhone = phone ? String(phone).trim() : null;
 
     let savedMessage = null;
     try {
       savedMessage = await prisma.contactMessage.create({
         data: {
-          name: String(name).trim(),
-          email: String(email).trim().toLowerCase(),
-          phone: phone ? String(phone).trim() : null,
-          subject: String(subject).trim(),
-          message: String(message).trim(),
+          name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          subject: cleanSubject,
+          message: cleanMessage,
           status: 'UNREAD',
           ipAddress,
         },
       });
     } catch (dbErr) {
-      console.warn('Prisma store message fallback:', dbErr);
+      console.warn('⚠️ Stockage en base de données non disponible (fallback actif):', dbErr);
     }
+
+    // Envoi de l'email de notification aux adresses de l'organisation OCPR Comores
+    const emailResult = await sendContactNotificationEmail({
+      name: cleanName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      subject: cleanSubject,
+      message: cleanMessage,
+      ipAddress,
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Votre message a été transmis avec succès à l Administration OCPR Comores.',
+      message: 'Votre message a été transmis avec succès à l’Administration OCPR Comores.',
       id: savedMessage?.id || null,
+      emailSent: emailResult.sent,
     });
   } catch (error: any) {
     console.error('Contact Form Route Error:', error);
     return NextResponse.json(
-      { error: 'Une erreur est survenue lors de l envoi de votre message.' },
+      { error: 'Une erreur est survenue lors de l’envoi de votre message.' },
       { status: 500 }
     );
   }

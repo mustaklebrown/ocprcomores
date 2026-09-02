@@ -1,9 +1,27 @@
 import { PrismaClient, Role, MediaType, MessageStatus } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import bcrypt from 'bcryptjs';
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:5432/ocpr_db';
-const adapter = new PrismaPg({ connectionString });
+const connectionString =
+  process.env.DATABASE_URL || 'mysql://root:password@127.0.0.1:3306/ocpr_db';
+
+const url = new URL(connectionString);
+const databaseName = url.pathname.replace(/^\//, '').split('?')[0];
+const isSslRequired = url.searchParams.get('ssl') === 'true' || process.env.DB_SSL === 'true';
+
+const adapter = new PrismaMariaDb({
+  host: url.hostname || '127.0.0.1',
+  port: parseInt(url.port || '3306', 10),
+  user: decodeURIComponent(url.username || 'root'),
+  password: decodeURIComponent(url.password || ''),
+  database: databaseName || 'ocpr_db',
+  allowPublicKeyRetrieval: true,
+  connectTimeout: 30000,
+  acquireTimeout: 30000,
+  charset: 'utf8mb4',
+  ...(isSslRequired ? { ssl: { rejectUnauthorized: false } } : {}),
+});
+
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -150,10 +168,14 @@ async function main() {
   ];
 
   for (const n of newsItems) {
-    await prisma.news.create({ data: n });
+    await prisma.news.upsert({
+      where: { slug: n.slug },
+      update: {},
+      create: n,
+    });
   }
 
-  console.log(`✅ Seeded ${newsItems.length} news articles`);
+  console.log(`✅ Seeded news articles`);
 
   // 4. Initial Media Items
   const mediaItems = [
@@ -181,21 +203,100 @@ async function main() {
   ];
 
   for (const m of mediaItems) {
-    await prisma.media.create({ data: m });
+    const existing = await prisma.media.findFirst({ where: { title: m.title } });
+    if (!existing) {
+      await prisma.media.create({ data: m });
+    }
   }
 
-  console.log(`✅ Seeded ${mediaItems.length} media items`);
+  console.log(`✅ Seeded media items`);
 
-  // 5. Audit Log Initial Entry
-  await prisma.auditLog.create({
-    data: {
-      adminId: admin.id,
-      adminEmail: admin.email,
-      action: 'SYSTEM_INITIALIZATION',
-      details: 'Initialisation de la base de données PostgreSQL et création du compte Super Admin.',
-      ipAddress: '127.0.0.1',
+  // 5. Initial Downloadable Documents (Textes Réglementaires)
+  const initialDocuments = [
+    {
+      title: "Cadre Réglementaire & Statuts de l'OCPR",
+      category: 'Réglementation',
+      description:
+        "Décret officiel régissant la création, les compétences et les prérogatives de l'Office Comorien des Produits de Rente.",
+      fileSize: '1.2 MB',
+      fileFormat: 'PDF',
+      date: '2024',
+      fileUrl: '/uploads/documents/cadre_reglementaire_ocpr.pdf',
     },
-  });
+    {
+      title: 'Guide des Normes de Qualité - Vanille Bourbon',
+      category: 'Exportation',
+      description:
+        "Spécifications techniques, taux de vanilline requis (> 2.0%) et critères de calibrage pour les lots d'exportation certifiés.",
+      fileSize: '850 KB',
+      fileFormat: 'PDF',
+      date: '2025',
+      fileUrl: '/uploads/documents/guide_normes_vanille_bourbon.pdf',
+    },
+    {
+      title: "Fiche Technique & Protocole d'Analyse - Ylang-Ylang",
+      category: 'Exportation',
+      description:
+        "Normes de distillation et critères de contrôle physico-chimique (densité, indice de réfraction) pour l'homologation des huiles.",
+      fileSize: '2.1 MB',
+      fileFormat: 'PDF',
+      date: '2025',
+      fileUrl: '/uploads/documents/protocole_ylang_ylang.pdf',
+    },
+    {
+      title: "Formulaire Officiel de Demande d'Agrément d'Exportateur",
+      category: 'Formulaire',
+      description:
+        "Dossier de candidature à compléter pour toute demande d'agrément officiel et de licence annuelle d'exportation.",
+      fileSize: '450 KB',
+      fileFormat: 'PDF',
+      date: '2025',
+      fileUrl: '/uploads/documents/formulaire_agrement_exportateur.pdf',
+    },
+    {
+      title: 'Rapport Annuel sur les Filières de Rente des Comores',
+      category: 'Rapport',
+      description:
+        "Bilan statistique de la production, des tonnages exportés et de la valeur économique des cultures de rente.",
+      fileSize: '3.6 MB',
+      fileFormat: 'PDF',
+      date: '2024',
+      fileUrl: '/uploads/documents/rapport_annuel_filieres.pdf',
+    },
+    {
+      title: 'Manuel des Bonnes Pratiques Agricoles pour les Producteurs',
+      category: 'Guide',
+      description:
+        "Guide technique d'encadrement sur les méthodes durables de culture, de récolte à maturité et de séchage traditionnel.",
+      fileSize: '1.9 MB',
+      fileFormat: 'PDF',
+      date: '2025',
+      fileUrl: '/uploads/documents/manuel_bonnes_pratiques.pdf',
+    },
+  ];
+
+  for (const doc of initialDocuments) {
+    const existing = await prisma.document.findFirst({ where: { title: doc.title } });
+    if (!existing) {
+      await prisma.document.create({ data: doc });
+    }
+  }
+
+  console.log(`✅ Seeded ${initialDocuments.length} initial documents`);
+
+  // 6. Audit Log Initial Entry
+  const auditExists = await prisma.auditLog.findFirst({ where: { action: 'SYSTEM_INITIALIZATION' } });
+  if (!auditExists) {
+    await prisma.auditLog.create({
+      data: {
+        adminId: admin.id,
+        adminEmail: admin.email,
+        action: 'SYSTEM_INITIALIZATION',
+        details: 'Initialisation de la base de données MySQL et création du compte Super Admin.',
+        ipAddress: '127.0.0.1',
+      },
+    });
+  }
 
   console.log('✅ System Initialization audit log created.');
   console.log('🎉 Database seeding completed successfully!');

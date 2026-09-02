@@ -258,7 +258,7 @@ export default function AdminDashboardPage() {
               <div className="flex items-center space-x-3">
                 <Database className="w-4 h-4 text-emerald-400" />
                 <div>
-                  <p className="font-semibold text-white">Base de Données PostgreSQL</p>
+                  <p className="font-semibold text-white">Base de Données MySQL</p>
                   <p className="text-[10px] text-slate-400">Prisma ORM & Requêtes paramétrées</p>
                 </div>
               </div>

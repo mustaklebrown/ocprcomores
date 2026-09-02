@@ -227,13 +227,25 @@ export default function GallerySection() {
             {/* Media Body */}
             <div className="relative aspect-video w-full bg-black flex items-center justify-center overflow-hidden">
               {selectedMedia.type === 'video' ? (
-                <iframe
-                  className="w-full h-full border-0"
-                  src={selectedMedia.src}
-                  title={selectedMedia.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                selectedMedia.src.includes('youtube.com') ||
+                selectedMedia.src.includes('youtu.be') ||
+                selectedMedia.src.includes('vimeo.com') ? (
+                  <iframe
+                    className="w-full h-full border-0"
+                    src={selectedMedia.src}
+                    title={selectedMedia.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={selectedMedia.src}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-contain bg-black"
+                  />
+                )
               ) : (
                 <Image
                   src={selectedMedia.src}

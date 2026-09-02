@@ -217,7 +217,7 @@ export default function AdminProductsPage() {
 
       {/* Products Grid */}
       {loading ? (
-        <div className="p-12 text-center text-slate-500 text-xs">Chargement des produits depuis PostgreSQL...</div>
+        <div className="p-12 text-center text-slate-500 text-xs">Chargement des produits depuis la base de données...</div>
       ) : filteredProducts.length === 0 ? (
         <div className="p-12 text-center bg-slate-900/50 border border-slate-800 rounded-3xl text-slate-400 text-xs">
           Aucun produit ne correspond à votre recherche.
@@ -406,10 +406,34 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">URL Image d illustration</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-slate-300 font-medium">Image d'illustration</label>
+                    <label className="text-[11px] text-emerald-400 hover:text-emerald-300 cursor-pointer font-semibold">
+                      <span>📁 Téléverser photo</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const body = new FormData();
+                            body.append('file', file);
+                            const res = await fetch('/api/admin/upload', { method: 'POST', body });
+                            const data = await res.json();
+                            if (!res.ok) throw new Error(data.error);
+                            setFormData((prev) => ({ ...prev, imageUrl: data.url }));
+                          } catch (err: any) {
+                            alert(err.message || 'Échec du téléversement');
+                          }
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                   <input
-                    type="url"
-                    placeholder="https://images.unsplash.com/..."
+                    type="text"
+                    placeholder="/uploads/images/... ou https://..."
                     value={formData.imageUrl}
                     onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                     className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2.5 text-white outline-none"
@@ -446,7 +470,7 @@ export default function AdminProductsPage() {
                   {saving ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <span>Enregistrer dans PostgreSQL</span>
+                    <span>Enregistrer les modifications</span>
                   )}
                 </button>
               </div>

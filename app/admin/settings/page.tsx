@@ -141,7 +141,7 @@ export default function AdminSettingsPage() {
           <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
             <p className="font-bold text-white font-mono">DATABASE_URL</p>
             <p className="text-slate-400">
-              Chaîne de connexion PostgreSQL sur Hostinger (ex: <code className="text-emerald-400">postgresql://user:password@localhost:5432/ocpr_db</code>).
+              Chaîne de connexion MySQL sur Hostinger (ex: <code className="text-emerald-400">mysql://user:password@localhost:3306/ocpr_db</code>).
             </p>
           </div>
 

@@ -28,15 +28,17 @@ async function main() {
   console.log('🌱 Starting database seed...');
 
   // 1. Create Default Admin User
+  const defaultEmail = (process.env.ADMIN_DEFAULT_EMAIL || 'admin@ocprcomores.com').toLowerCase().trim();
+  const defaultName = process.env.ADMIN_DEFAULT_NAME || 'Direction OCPR Comores';
   const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@OCPR2026!';
   const passwordHash = await bcrypt.hash(defaultPassword, 12);
 
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@ocprcomores.com' },
+    where: { email: defaultEmail },
     update: {},
     create: {
-      email: 'admin@ocprcomores.com',
-      name: 'Direction OCPR Comores',
+      email: defaultEmail,
+      name: defaultName,
       passwordHash,
       role: Role.SUPER_ADMIN,
     },
@@ -177,28 +179,63 @@ async function main() {
 
   console.log(`✅ Seeded news articles`);
 
-  // 4. Initial Media Items
+  // 4. Initial Media Items (Photos & Vidéos)
   const mediaItems = [
     {
-      title: 'Récolte traditionnelle de la Vanille Bourbon à Anjouan',
+      title: 'Gousses de Vanille Bourbon des Comores',
       category: 'Vanille',
       type: MediaType.PHOTO,
       url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=1200&auto=format&fit=crop',
-      description: 'Planteur comorien procédant au tri manuel des gousses vertes.',
+      description: 'Gousses de Vanille Bourbon des Comores affinées selon les méthodes artisanales traditionnelles.',
+    },
+    {
+      title: 'Siège & Équipe de la Direction OCPR Comores',
+      category: 'OCPR',
+      type: MediaType.PHOTO,
+      url: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=1200&auto=format&fit=crop',
+      description: 'Locaux et équipe de direction de l Office Comorien des Produits de Rente.',
     },
     {
       title: 'Distillation d Ylang-Ylang dans un alambic traditionnel',
       category: 'Ylang-Ylang',
       type: MediaType.PHOTO,
       url: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=1200&auto=format&fit=crop',
-      description: 'Démonstration du processus d extraction de l huile essentielle Extra.',
+      description: 'Démonstration du processus d extraction de l huile essentielle Extra aux Comores.',
     },
     {
       title: 'Séchage des clous de Girofle au soleil à Mohéli',
       category: 'Girofle',
       type: MediaType.PHOTO,
       url: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=1200&auto=format&fit=crop',
-      description: 'Alignement des nattes de séchage garantissant une qualité optimale.',
+      description: 'Alignement des nattes de séchage de clous de girofle garantissant une qualité optimale.',
+    },
+    {
+      title: 'Curcuma, Poivre & Épices Nobles des Îles',
+      category: 'Épices',
+      type: MediaType.PHOTO,
+      url: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=1200&auto=format&fit=crop',
+      description: 'Sélection des épices comoriennes réputées pour leurs arômes d exception.',
+    },
+    {
+      title: 'Affinage & Contrôle Qualité de la Vanille Verte',
+      category: 'Vanille',
+      type: MediaType.PHOTO,
+      url: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?q=80&w=1200&auto=format&fit=crop',
+      description: 'Inspection phytosanitaire et suivi de maturation en malles d affinage.',
+    },
+    {
+      title: 'Présentation Institutionnelle des Filières OCPR',
+      category: 'OCPR',
+      type: MediaType.VIDEO,
+      url: '/uploads/videos/Deja_disponible__4__1788343733182.mp4',
+      description: 'Spot vidéo officiel de présentation des missions et des filières d exportation.',
+    },
+    {
+      title: 'Cérémonie de Pose de la Première Pierre du Laboratoire',
+      category: 'Événements',
+      type: MediaType.PHOTO,
+      url: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?q=80&w=1200&auto=format&fit=crop',
+      description: 'Lancement officiel du projet de laboratoire national d analyse et de certification.',
     },
   ];
 
@@ -209,7 +246,7 @@ async function main() {
     }
   }
 
-  console.log(`✅ Seeded media items`);
+  console.log(`✅ Seeded ${mediaItems.length} media items`);
 
   // 5. Initial Downloadable Documents (Textes Réglementaires)
   const initialDocuments = [

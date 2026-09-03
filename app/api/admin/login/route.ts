@@ -25,10 +25,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Fallback default super admin credentials for local offline testing if DB is not populated yet
-    const isDefaultAdminEnv =
-      email === 'admin@ocprcomores.com' &&
-      password === (process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@OCPR2026!');
+    const adminEmail = (process.env.ADMIN_DEFAULT_EMAIL || 'admin@ocprcomores.com').toLowerCase().trim();
+    const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@OCPR2026!';
+    const isDevelopment = process.env.NODE_ENV !== 'production';
 
     let user = null;
     let isValidPassword = false;
@@ -45,12 +44,12 @@ export async function POST(req: NextRequest) {
       console.warn('Prisma DB lookup fallback mode:', dbErr);
     }
 
-    // Allow default credentials if database is empty or matching default fallback
-    if (!user && isDefaultAdminEnv) {
+    // Allow default credentials fallback ONLY in development mode if database is empty/unreachable
+    if (!user && isDevelopment && email.toLowerCase().trim() === adminEmail && password === adminPassword) {
       user = {
         id: 'seed-superadmin-id',
-        email: 'admin@ocprcomores.com',
-        name: 'Direction OCPR Comores',
+        email: adminEmail,
+        name: process.env.ADMIN_DEFAULT_NAME || 'Direction OCPR Comores',
         role: 'SUPER_ADMIN' as const,
         passwordHash: '',
       };

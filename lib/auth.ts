@@ -4,9 +4,11 @@ import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 import { prisma } from './db';
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'ocpr_comores_super_secure_jwt_secret_2026_key_change_in_prod'
-);
+const secretKey = process.env.JWT_SECRET || 'ocpr_comores_super_secure_jwt_secret_2026_key_change_in_prod';
+if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET.includes('key_change_in_prod'))) {
+  console.warn('⚠️ [Sécurité] Attention: JWT_SECRET personnalisé non défini en production. Veuillez définir JWT_SECRET dans vos variables d environnement.');
+}
+const JWT_SECRET = new TextEncoder().encode(secretKey);
 
 export const COOKIE_NAME = 'ocpr_admin_token';
 export const TOKEN_EXPIRY = '8h'; // 8 hours session

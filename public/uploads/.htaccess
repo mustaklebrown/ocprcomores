@@ -1,0 +1,37 @@
+# ==============================================================================
+# OCPR COMORES — Protection du dossier des téléversements (cPanel / Apache)
+# ==============================================================================
+# Empêche l'exécution de tout script (PHP, CGI, etc.) au sein du répertoire uploads.
+# Seuls les fichiers statiques (images, PDF, documents) sont servis.
+# ==============================================================================
+
+# 1. Désactiver l'exécution du moteur PHP (mod_php / lsphp)
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+# 2. Interdire l'accès direct aux extensions exécutables ou dangereuses
+<FilesMatch "(?i)\.(php|phtml|php3|php4|php5|php7|php8|phps|phar|cgi|pl|py|sh|bash|exe|bin|bat)$">
+    Require all denied
+</FilesMatch>
+
+# 3. Forcer le type MIME pour les fichiers non exécutables
+ForceType application/octet-stream
+<FilesMatch "(?i)\.(jpe?g|png|gif|webp|svg|ico)$">
+    ForceType image/*
+</FilesMatch>
+<FilesMatch "(?i)\.pdf$">
+    ForceType application/pdf
+</FilesMatch>
+<FilesMatch "(?i)\.(mp4|webm|ogg)$">
+    ForceType video/*
+</FilesMatch>
+
+# 4. Désactiver le listing de répertoires
+Options -Indexes

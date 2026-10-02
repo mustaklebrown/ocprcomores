@@ -1,0 +1,88 @@
+# ==============================================================================
+# OCPR COMORES — Configuration Apache / cPanel (.htaccess)
+# ==============================================================================
+# Ce fichier optimise les performances, le cache et la sécurité sous cPanel.
+# Note : Si vous utilisez "Setup Node.js App" dans cPanel, le système ajoutera
+# automatiquement son bloc Passenger au début de ce fichier.
+# ==============================================================================
+
+# 1. SÉCURITÉ : Interdire l'accès direct aux fichiers sensibles
+# Empêche quiconque de télécharger les fichiers de configuration, code ou variables d'environnement
+<FilesMatch "(^\.env|^\.git|package\.json|package-lock\.json|bun\.lock|tsconfig\.json|prisma\.config\.ts|\.sql|\.log|\.bak|\.md)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquer l'accès aux répertoires internes sensibles
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(\.git|prisma|node_modules|\.next/server)/ - [F,L]
+</IfModule>
+
+# Désactiver le listage des dossiers
+Options -Indexes
+
+# 2. PERFORMANCE : Compression GZIP / Deflate
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# 3. PERFORMANCE : Mise en cache du navigateur (Browser Caching)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+
+    # Fichiers statiques Next.js immuables (_next/static/)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
+
+    # Images et médias
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Polices de caractères (Fonts)
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+
+    # Données dynamiques / HTML (ne pas sur-cacher)
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
+</IfModule>
+
+# 4. EN-TÊTES DE SÉCURITÉ COMPLÉMENTAIRES
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Cache immuable pour les assets statiques avec hash Next.js
+    <FilesMatch "\.(css|js|woff2?|webp|avif|png|jpg|jpeg|svg)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
+# ==============================================================================
+# CAS PARTICULIER : REVERSE PROXY (si vous n'utilisez pas Phusion Passenger)
+# Si votre cPanel utilise un port local (ex: 3000) géré par PM2, décommentez ci-dessous :
+# ==============================================================================
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_URI} !^/\.well-known
+#     RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+# </IfModule>

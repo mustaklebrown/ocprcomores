@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Script de préparation post-build pour le déploiement Hostinger (Standalone Node.js).
+ * Script de préparation post-build pour le déploiement cPanel & Production (Standalone Node.js).
  * Copie automatiquement les dossiers `public` et `.next/static` dans `.next/standalone`
- * afin que l'application soit 100% autonome et prête à tourner avec PM2 ou Node.js sur Hostinger.
+ * afin que l'application soit 100% autonome et prête à tourner avec Passenger ou Node.js sur cPanel.
  */
 
 const rootDir = path.resolve(__dirname, '..');
@@ -13,6 +13,8 @@ const publicSrc = path.join(rootDir, 'public');
 const publicDest = path.join(standaloneDir, 'public');
 const staticSrc = path.join(rootDir, '.next', 'static');
 const staticDest = path.join(standaloneDir, '.next', 'static');
+const htaccessSrc = path.join(rootDir, '.htaccess');
+const htaccessDest = path.join(standaloneDir, '.htaccess');
 
 function copyRecursiveSync(src, dest) {
   const exists = fs.existsSync(src);
@@ -36,7 +38,7 @@ function copyRecursiveSync(src, dest) {
 }
 
 if (fs.existsSync(standaloneDir)) {
-  console.log('📦 [Hostinger Prep] Préparation du dossier autonome .next/standalone...');
+  console.log('📦 [cPanel / Standalone Prep] Préparation du dossier autonome .next/standalone...');
 
   if (fs.existsSync(publicSrc)) {
     console.log('  -> Copie des assets statiques de `public/` vers `.next/standalone/public`...');
@@ -48,7 +50,21 @@ if (fs.existsSync(standaloneDir)) {
     copyRecursiveSync(staticSrc, staticDest);
   }
 
-  console.log('✅ [Hostinger Prep] Bundle autonome prêt pour le serveur Hostinger !');
+  if (fs.existsSync(htaccessSrc)) {
+    console.log('  -> Copie de `.htaccess` vers `.next/standalone/.htaccess`...');
+    fs.copyFileSync(htaccessSrc, htaccessDest);
+  }
+
+  // S'assurer que les dossiers d'upload existent dans standalone
+  const uploadDirs = ['documents', 'images', 'videos'];
+  uploadDirs.forEach((dir) => {
+    const dirPath = path.join(publicDest, 'uploads', dir);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  });
+
+  console.log('✅ [cPanel / Standalone Prep] Bundle autonome prêt pour cPanel ou serveur dédié !');
 } else {
-  console.log('ℹ️ [Hostinger Prep] Dossier .next/standalone non trouvé (peut-être un build Vercel).');
+  console.log('ℹ️ [cPanel / Standalone Prep] Dossier .next/standalone non trouvé (peut-être un build Vercel).');
 }

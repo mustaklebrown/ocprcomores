@@ -7,7 +7,7 @@
     "build": "prisma generate && next build && node scripts/prepare-standalone.js",
     "start": "next start",
     "cpanel:start": "node server.js",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate || echo 'Prisma generate skipped'",
     "db:push": "prisma db push",
     "db:seed": "npx tsx prisma/seed.ts"
   },

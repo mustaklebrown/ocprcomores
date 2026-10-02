@@ -153,6 +153,14 @@ SMTP_FROM="OCPR Comores <contact@ocprcomores.com>"
 - Vérifiez que `server.js` est bien sélectionné comme **Application startup file**.
 - Assurez-vous que le build a bien été effectué (`.next` doit être présent).
 
+### Erreur `EBADENGINE` ou échec de `prisma generate` lors de `npm install`
+- **Cause** : Prisma 7 CLI nécessite **Node.js >= 22.0.0**. Sur cPanel configuré avec Node 20, le script `prisma generate` échouait lors de l'installation des paquets.
+- **Résolution** :
+  1. Le script `postinstall` a été retiré de `package.json` pour que `npm install` réussisse sans encombre.
+  2. Le fichier `.npmrc` ignore les alertes strictes de versions (`engine-strict=false`).
+  3. Si vous avez accès à **Node.js 22.x** dans cPanel ("Setup Node.js App"), passez l'application sur **Node 22**.
+  4. Si vous êtes sur Node 20, utilisez le mode **Standalone** (`bun run build` en local puis téléversement du dossier `.next/standalone`), ce qui évite toute compilation lourde ou exécution de Prisma CLI sur le serveur.
+
 ### Erreur de connexion `DATABASE_URL` (ECONNREFUSED)
 - Si `127.0.0.1:3306` est refusé, essayez d'utiliser le socket Unix MySQL :
   ```env

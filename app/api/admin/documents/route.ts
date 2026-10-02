@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { getAuthenticatedAdmin, createAuditLog, getClientIp } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const admin = await getAuthenticatedAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    }
+
     const documents = await prisma.document.findMany({
       orderBy: { createdAt: 'desc' },
     });
@@ -19,6 +25,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const admin = await getAuthenticatedAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { title, category, description, fileUrl, fileName, fileSize, fileFormat, date, isPublished } = body;
 
@@ -41,6 +52,14 @@ export async function POST(req: NextRequest) {
         date: date || new Date().getFullYear().toString(),
         isPublished: isPublished !== undefined ? isPublished : true,
       },
+    });
+
+    await createAuditLog({
+      adminId: admin.id,
+      adminEmail: admin.email,
+      action: 'CREATE_DOCUMENT',
+      details: `Création du document: "${document.title}" (${document.id})`,
+      ipAddress: getClientIp(req),
     });
 
     return NextResponse.json({ success: true, document }, { status: 201 });

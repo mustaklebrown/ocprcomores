@@ -44,8 +44,13 @@ export async function POST(req: NextRequest) {
       console.warn('Prisma DB lookup fallback mode:', dbErr);
     }
 
-    // Allow default credentials fallback ONLY in development mode if database is empty/unreachable
-    if (!user && isDevelopment && email.toLowerCase().trim() === adminEmail && password === adminPassword) {
+    // Allow default credentials fallback ONLY in strict local development mode
+    // NODE_ENV must be exactly 'development' — staging/preview are excluded
+    const isStrictDev = process.env.NODE_ENV === 'development';
+    if (!user && isStrictDev && email.toLowerCase().trim() === adminEmail && password === adminPassword) {
+      console.warn(
+        `⚠️ [Sécurité] Connexion via identifiants de secours dev depuis IP: ${ip}. Ne jamais utiliser en production.`
+      );
       user = {
         id: 'seed-superadmin-id',
         email: adminEmail,

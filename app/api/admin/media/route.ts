@@ -4,12 +4,17 @@ import { getAuthenticatedAdmin, createAuditLog, getClientIp } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const admin = await getAuthenticatedAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+    }
+
     const media = await prisma.media.findMany({
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json({ media });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Erreur lors de la récupération des médias' }, { status: 500 });
   }
 }
 

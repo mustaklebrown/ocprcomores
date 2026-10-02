@@ -2,13 +2,17 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
+const _jwtSecret = process.env.JWT_SECRET;
+if (!_jwtSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('[SÉCURITÉ CRITIQUE] JWT_SECRET est obligatoire en production.');
+}
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'ocpr_comores_super_secure_jwt_secret_2026_key_change_in_prod'
+  _jwtSecret || 'dev_only_secret_not_for_production_ocpr_2026'
 );
 
 const COOKIE_NAME = 'ocpr_admin_token';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Allow public routes & login route

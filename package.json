@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build && node scripts/prepare-standalone.js",
+    "build:next": "next build && node scripts/prepare-standalone.js",
     "start": "next start",
     "cpanel:start": "node server.js",
     "prisma:generate": "prisma generate",

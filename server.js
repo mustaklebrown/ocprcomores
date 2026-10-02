@@ -29,18 +29,75 @@ const isUnixSocket = typeof rawPort === 'string' && (rawPort.startsWith('/') || 
 const nextPort = !isUnixSocket && !isNaN(Number(rawPort)) ? Number(rawPort) : 3000;
 const nextHost = isUnixSocket ? 'localhost' : (process.env.HOSTNAME || '0.0.0.0');
 
-// 3. Vérification du mode Standalone si Next.js n'est pas dans les dépendances racine
+// 3. Vérification de l'existence du build de production Next.js (.next)
+const buildIdPath = path.join(__dirname, '.next', 'BUILD_ID');
+const standaloneServerPath = path.join(__dirname, '.next', 'standalone', 'server.js');
+
+// Cas A : Le bundle Standalone existe (déploiement optimisé cPanel)
+if (!fs.existsSync(buildIdPath) && fs.existsSync(standaloneServerPath)) {
+  console.log('📦 [cPanel] Démarrage automatique via le bundle autonome .next/standalone/server.js');
+  require(standaloneServerPath);
+  return;
+}
+
+// Cas B : Aucun build présent dans .next (l'application n'a pas encore été compilée)
+if (!fs.existsSync(buildIdPath)) {
+  console.warn("⚠️ [cPanel] Aucun build de production trouvé dans '.next'.");
+  console.warn("👉 Exécutez 'npm run build' dans le terminal cPanel ou téléversez le dossier .next compilé.");
+
+  const fallbackServer = createServer((req, res) => {
+    res.statusCode = 503;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Retry-After', '30');
+    res.end(`<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>OCPR Comores — Build Requis</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; max-width: 640px; width: 100%; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
+    h1 { color: #38bdf8; font-size: 22px; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+    p { color: #94a3b8; font-size: 15px; line-height: 1.6; }
+    code { background: #0f172a; color: #34d399; padding: 3px 8px; border-radius: 6px; font-family: monospace; font-size: 14px; border: 1px solid #334155; }
+    pre { background: #0f172a; color: #34d399; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 14px; overflow-x: auto; border: 1px solid #334155; }
+    ol { padding-left: 20px; color: #cbd5e1; }
+    li { margin-bottom: 12px; }
+    .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid #334155; font-size: 13px; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>⚙️ OCPR Comores — Finalisation du Déploiement</h1>
+    <p>Le serveur Node.js est démarré avec succès sur cPanel, mais le dossier de build de production (<code>.next</code>) n'est pas encore présent.</p>
+    <p><strong>Pour finaliser le démarrage (choisir une option) :</strong></p>
+    <ol>
+      <li><strong>Option 1 (Téléversement - Recommandé) :</strong> Compressez votre dossier local <code>.next</code> en ZIP, téléversez-le dans le dossier de l'application sur cPanel et extrayez-le.</li>
+      <li><strong>Option 2 (Terminal cPanel) :</strong> Ouvrez le terminal cPanel et lancez :
+        <pre>npx next build</pre>
+      </li>
+    </ol>
+    <p>Une fois les fichiers présents, cliquez sur <strong>Restart</strong> dans l'interface cPanel <em>"Setup Node.js App"</em>.</p>
+    <div class="footer">Office Comorien des Produits de Rente — Serveur cPanel</div>
+  </div>
+</body>
+</html>`);
+  });
+
+  if (typeof PhusionPassenger !== 'undefined') {
+    fallbackServer.listen('passenger');
+  } else {
+    fallbackServer.listen(rawPort);
+  }
+  return;
+}
+
+// 4. Chargement de Next.js si le build .next est bien présent
 let next;
 try {
   next = require('next');
 } catch (e) {
-  const standaloneServer = path.join(__dirname, '.next', 'standalone', 'server.js');
-  if (fs.existsSync(standaloneServer)) {
-    console.log('📦 [cPanel] Démarrage automatique via le bundle autonome .next/standalone/server.js');
-    require(standaloneServer);
-    return;
-  }
-  console.error('❌ Impossible de charger le module "next" ou le bundle standalone.', e);
+  console.error('❌ Impossible de charger le module "next". Vérifiez que npm install a été exécuté.', e);
   process.exit(1);
 }
 

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@/src/generated/prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 
 const globalForPrisma = globalThis as unknown as {
@@ -51,7 +51,7 @@ function createPrismaClient(): PrismaClient {
     });
   } catch (err) {
     console.error('⚠️ Erreur lors de l’initialisation de la connexion MySQL (cPanel / Production):', err);
-    return new PrismaClient();
+    throw err;
   }
 }
 

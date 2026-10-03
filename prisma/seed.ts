@@ -1,4 +1,4 @@
-import { PrismaClient, Role, MediaType, MessageStatus } from '@prisma/client';
+import { PrismaClient, Role, MediaType, MessageStatus } from '../src/generated/prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import bcrypt from 'bcryptjs';
 

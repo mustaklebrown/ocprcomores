@@ -10,10 +10,10 @@
     "cpanel:start": "node server.js",
     "prisma:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "npx tsx prisma/seed.ts"
+    "db:seed": "node prisma/seed.js"
   },
   "prisma": {
-    "seed": "npx tsx prisma/seed.ts"
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.0",

@@ -10,9 +10,12 @@ const databaseName = url.pathname.replace(/^\//, '').split('?')[0];
 const isSslRequired =
   url.searchParams.get('ssl') === 'true' || process.env.DB_SSL === 'true';
 
-const adapter = new PrismaMariaDb({
-  host: url.hostname || '127.0.0.1',
-  port: parseInt(url.port || '3306', 10),
+const socketPath =
+  url.searchParams.get('socket') ||
+  process.env.DB_SOCKET ||
+  (process.env.MYSQL_UNIX_PORT || undefined);
+
+const adapterConfig: any = {
   user: decodeURIComponent(url.username || 'root'),
   password: decodeURIComponent(url.password || ''),
   database: databaseName || 'ocpr_db',
@@ -21,8 +24,16 @@ const adapter = new PrismaMariaDb({
   acquireTimeout: 30000,
   charset: 'utf8mb4',
   ...(isSslRequired ? { ssl: { rejectUnauthorized: false } } : {}),
-});
+};
 
+if (socketPath) {
+  adapterConfig.socketPath = socketPath;
+} else {
+  adapterConfig.host = url.hostname === 'localhost' ? '127.0.0.1' : (url.hostname || '127.0.0.1');
+  adapterConfig.port = parseInt(url.port || '3306', 10);
+}
+
+const adapter = new PrismaMariaDb(adapterConfig);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
